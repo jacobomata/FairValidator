@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./FAIR_validator.css" />
+
+
+    <!-- Javascript -->
+    <script src="./FAIR_validator.js"></script>
+
+    <!-- Modulo -->
+    <script type="module" src="./module.js"></script>
+
+    <title>FAIR for OOPS!</title>
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <!-- Cabecera -->
+        <div class="row mt-5">
+            <span class="texto1">FAIR for OOPS!</span>
+        </div>
+        <div class="row mt-2">
+            <span class="texto2">Enter the ontology: </span>
+        </div>
+
+        <!-- Ontology input -->
+        <div class="row mt-3">
+            <div class="caja caja-input">
+                <div class="col-12">
+                    
+                    <!-- Encabezados seleccionable -->
+                    <div class="row selectores">
+                        <!-- URI -->
+                        <div class="col-4 selector selector-izq center active" onclick="openInput(event, 'URI')">
+                            <span class="texto3"> URI </span>
+                        </div>
+                        <!-- Codigo -->
+                        <div class="col-4 selector center" onclick="openInput(event, 'Code')">
+                            <span class="texto3"> Code </span>
+                        </div>
+                        <!-- Archivo -->
+                        <div class="col-4 selector selector-der center" onclick="openInput(event, 'File')">
+                            <span class="texto3"> File </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Input de URI-->
+                    <div id="URI" class="row selector-content mt-3" style="display: flex">
+                        <div class="col-2 d-flex align-items-center">
+                            <span class="texto4">Enter URI: </span>
+                        </div>
+                        <div class="col-10">
+                            <input id="URI_input" class="input-1" placeholder="Enter URI...">
+                        </div>
+                    </div>
+                    <!-- Input del código -->
+                    <div id="Code" class="row selector-content mt-3" style="display: none">
+                        <div class="col-12 center">
+                            <textarea id="Code_input" class="input-2" placeholder="Enter Ontology Code..."></textarea>
+                        </div>
+                    </div>
+                    <!-- Input del archivo -->
+                    <div id="File" class="row selector-content mt-3" style="display: none">
+                        <div class="col-12">
+                            <input id="File_input" class="input-1" type="file" placeholder="Drag and drop the file to upload here">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Boton RUN -->
+        <div class="row justify-content-center mt-4">
+            <button class="run px-5" onclick="run()">RUN</button>
+        </div>
+
+
+
+        <!-- RESULTADOS -->
+        <div id="test-results" style="display: flex;" class="row">
+            <!-- INFO -->
+            <div class="row mt-3 w-100">
+                <div class="col-12 caja">
+                    <info-line id="title" title="Title:" inputData="this.result.ontology_title"></info-line>
+                    <info-line id="URI_info" title="URI:" inputData="this.result.ontology_URI"></info-line>
+                    <info-line title="License:" inputData="W3C"></info-line>
+                </div>
+            </div>
+
+            <div id="graphics" class="row">
+
+            </div>
+
+            <!-- Findable -->
+            <div class="row w-100 mt-3 pl-3 pb-2 caja">
+                <div class="row">
+                    <div class="col-10">
+                        <span class="texto-category">
+                            Findable
+                        </span>
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+                </div>
+                <div id="Findable-checks" class="col-12">
+                    <!-- Aqui van todos los checks--> 
+                </div>
+            </div>
+
+            <div id="Accesible">
+
+            </div>
+
+            <div id="Interopable">
+
+            </div>
+            <div id="Report">
+
+            </div>
+
+
+        </div>
+
+
+</body>
+
+</html>
