@@ -55,48 +55,92 @@ function showResults() {
 
 function getResults() {
   return {
-    ontology_URI: "https://w3id.org/blah",
-    ontology_title: "Smart cities BLAH",
-    overall_score: 0.5,
-    checks: [
+    "ontology_URI": "https://w3id.org/okn/o/sd",
+    "ontology_title": "The Software Description Ontology",
+    "overall_score":0.8888889,
+    "checks":[
       {
-        id: "SOME ID",
-        category_id: "Findable",
-        principle_id: "F1.1",
-        status: "error",
-        Status_score: 0.6,
-        explanation: "this is a text explaining the result",
-        affected_elements: ["URI1", "URI2"],
+        "id": "CN1",
+        "principle_id": "A1",
+        "category_id": "Accessible",
+        "status": "ok",
+        "explanation": "Ontology available in: HTML, RDF",
+        "description": "Checks if the ontology URI is published following the right content negotiation for RDF and HTML",
+        "total_passed_tests": 2,
+        "total_tests_run": 2
       },
       {
-        id: "SOME ID",
-        category_id: "Findable",
-        principle_id: "F1.1",
-        status: "error",
-        Status_score: 0.6,
-        explanation: "this is a text explaining the result",
-        affected_elements: ["URI1", "URI2"],
+        "id": "PURL1",
+        "principle_id": "F1",
+        "category_id": "Findable",
+        "status": "ok",
+        "explanation": "Ontology URI is persistent (w3id, purl, DOI, or a W3C URL)",
+        "description": " Check if the ontology uses a persistent URL",
+        "total_passed_tests": 1,
+        "total_tests_run": 1
       },
       {
-        id: "SOME ID 2",
-        category_id: "Findable",
-        principle_id: "R1",
-        status: "unknown",
-        Status_score: 0.8,
-        explanation: "this is a text explaining the result",
-        affected_elements: [],
+        "id": "DOC1",
+        "principle_id": "R1",
+        "category_id": "Reusable",
+        "status": "ok",
+        "explanation": "Ontology available in HTML",
+        "description": "Check if the ontology has an HTML documentation",
+        "total_passed_tests": 1,
+        "total_tests_run": 1
       },
       {
-        id: "SOME ID 3",
-        category_id: "Accesible",
-        principle_id: "R1",
-        status: "unknown",
-        Status_score: 0.8,
-        explanation: "this is a text explaining the result",
-        affected_elements: ["URI1"],
+        "id": "RDF1",
+        "principle_id": "I1",
+        "category_id": "Interoperable",
+        "status": "ok",
+        "explanation": "Ontology available in RDF",
+        "description": "Check if the ontology has an RDF serialization",
+        "total_passed_tests": 1,
+        "total_tests_run": 1
       },
-    ],
-  };
+      {
+        "id": "OM1",
+        "principle_id": "F2",
+        "category_id": "Findable",
+        "status": "unchecked",
+        "explanation": "All metadata found!",
+        "description": "Check to see is the following  minimum metadata [title, description, license, version iri, creator, creationDate, namespace URI] are present",
+        "total_passed_tests": 6,
+        "total_tests_run": 6
+      },
+      {
+        "id": "OM2",
+        "principle_id": "F2",
+        "category_id": "Findable",
+        "status": "unchecked",
+        "explanation": "The following metadata was not found: creation date, citation",
+        "description": "Check to see if the following recommended metadata [NS Prefix, version info, contributor, creation date, citation] are present",
+        "total_passed_tests": 3,
+        "total_tests_run": 5
+      },
+      {
+        "id": "OM4.1",
+        "principle_id": "R1.1",
+        "category_id": "Reusable",
+        "status": "ok",
+        "explanation": "A license was found http://creativecommons.org/licenses/by/2.0/",
+        "description": "Check to see if there is a license associated with the ontology",
+        "total_passed_tests": 1,
+        "total_tests_run": 1
+      },
+      {
+        "id": "OM4.2",
+        "principle_id": "R1.1",
+        "category_id": "Reusable",
+        "status": "ok",
+        "explanation": "License could be resolved",
+        "description": "Check to see if the license is resolvable",
+        "total_passed_tests": 1,
+        "total_tests_run": 1
+      }
+    ]
+    }
 }
 
 function loadInfo() {
@@ -162,9 +206,6 @@ function getCheckHTML(check_info) {
           <div class="row">
             <p class="texto-affected pl-3"> Affected URIs: </p>
           </div>
-          `
-          + getAffectedURIsHTML(check_info.affected_elements) +
-          `
         </div>
       </div>
     </div>
