@@ -1,36 +1,51 @@
-var selected = "URI";
+var typeInputSelected = "URI";
 
 function openInput(evt, elem) {
-  // Declaramos las variable
-  var i, tabcontent, tablinks;
 
-  // Seleccionamos todos los elementos con selector-content y los ocultamos
-  tabcontent = document.getElementsByClassName("selector-content");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
+  hideTabContent()
 
-  // Se elimina active de todos los selector
-  tablinks = document.getElementsByClassName("selector");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
+  deactivateSelectors()
 
-  // Se muestra el contenido y se pone como active el contenido
-  document.getElementById(elem).style.display = "flex";
-  evt.currentTarget.className += " active";
+  showSelector(evt, elem)
+}
 
-  selected = elem;
+function hideTabContent(){
+    // Seleccionamos todos los elementos con selector-content y los ocultamos
+    var tabcontent = document.getElementsByClassName("selector-content");
+    for (var i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+  
+}
+
+function deactivateSelectors(){
+    // Se elimina active de todos los selector
+    var tablinks = document.getElementsByClassName("selector");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+}
+
+function showSelector(evt,elem){
+    // Se muestra el contenido y se pone como active el contenido
+    document.getElementById(elem).style.display = "flex";
+    evt.currentTarget.className += " active";
+  
+    typeInputSelected = elem;
 }
 
 function run() {
   result = getResults();
 
+  loadResults();
+
+  showResults();
+}
+
+function loadResults(){
   loadInfo();
 
   loadCategory("Findable", result);
-
-  showResults();
 }
 
 function showResults() {
