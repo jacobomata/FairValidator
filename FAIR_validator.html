@@ -26,7 +26,6 @@
 
 
 <body>
-
     <div class="container">
 
         <!-- Cabecera -->
@@ -88,16 +87,54 @@
             <button class="run px-5" onclick="run()">RUN</button>
         </div>
 
-
-
         <!-- RESULTADOS -->
-        <div id="test-results" style="display: flex;" class="row">
+        <div id="test-results" style="display: block;" class="row mb-5">
+
             <!-- INFO -->
-            <div class="row mt-3 w-100">
+            <div class="row mt-3 ml-0 w-100">
                 <div class="col-12 caja">
-                    <info-line id="title" title="Title:" inputData="this.result.ontology_title"></info-line>
-                    <info-line id="URI_info" title="URI:" inputData="this.result.ontology_URI"></info-line>
-                    <info-line title="License:" inputData="W3C"></info-line>
+                    <div class="row my-3">
+                        <div class="col-2 d-flex align-items-center">
+                            <span class="texto4">
+                             Title:
+                            </span>
+                        </div>
+                        <div class="col-10">
+                            <div class="caja-texto pl-2">
+                                <span class="texto4" id="title">
+                                default
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-2 d-flex align-items-center">
+                            <span class="texto4">
+                             URI:
+                            </span>
+                        </div>
+                        <div class="col-10">
+                            <div class="caja-texto pl-2">
+                                <span class="texto4" id="URI-title">
+                                default
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-2 d-flex align-items-center">
+                            <span class="texto4">
+                            License:
+                            </span>
+                        </div>
+                        <div class="col-10">
+                            <div class="caja-texto pl-2">
+                                <span class="texto4">
+                                W3C
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -106,33 +143,72 @@
             </div>
 
             <!-- Findable -->
-            <div class="row w-100 mt-3 pl-3 pb-2 caja">
-                <div class="row">
+            <div class="row w-100 mt-3 ml-0 pb-2 caja">
+                <div class="row w-100 pl-3 pt-2">
                     <div class="col-10">
                         <span class="texto-category">
                             Findable
                         </span>
                     </div>
-                    <div class="col-2">
-
+                    <div class="col-2 d-flex align-items-center justify-content-end">
+                        <img src="assets/up-arrow.svg" onclick="arrowClicked(event, 'Findable-checks')">
                     </div>
                 </div>
-                <div id="Findable-checks" class="col-12">
+                <div id="Findable-checks" class="col-12 p-0">
                     <!-- Aqui van todos los checks--> 
                 </div>
             </div>
 
-            <div id="Accesible">
-
+            <!-- Accessible -->
+            <div class="row w-100 mt-3 ml-0 pb-2 caja">
+                <div class="row w-100 pl-3 pt-2">
+                    <div class="col-10">
+                        <span class="texto-category">
+                            Accessible
+                        </span>
+                    </div>
+                    <div class="col-2 d-flex align-items-center justify-content-end">
+                        <img src="assets/up-arrow.svg" onclick="arrowClicked(event, 'Accessible-checks')">
+                    </div>
+                </div>
+                <div id="Accessible-checks" class="col-12 p-0">
+                    <!-- Aqui van todos los checks--> 
+                </div>
             </div>
 
-            <div id="Interopable">
-
+            <!-- Interoperable -->
+            <div class="row w-100 mt-3 ml-0 pb-2 caja">
+                <div class="row w-100 pl-3 pt-2">
+                    <div class="col-10">
+                        <span class="texto-category">
+                            Interoperable
+                        </span>
+                    </div>
+                    <div class="col-2 d-flex align-items-center justify-content-end">
+                        <img src="assets/up-arrow.svg" onclick="arrowClicked(event, 'Interoperable-checks')">
+                    </div>
+                </div>
+                <div id="Interoperable-checks" class="col-12 p-0">
+                    <!-- Aqui van todos los checks--> 
+                </div>
             </div>
-            <div id="Report">
 
+            <!-- Reusable -->
+            <div class="row w-100 mt-3 ml-0 pb-2 caja">
+                <div class="row w-100 pl-3 pt-2">
+                    <div class="col-10">
+                        <span class="texto-category">
+                            Reusable
+                        </span>
+                    </div>
+                    <div class="col-2 d-flex align-items-center justify-content-end">
+                        <img src="assets/up-arrow.svg" onclick="arrowClicked(event, 'Reusable-checks')">
+                    </div>
+                </div>
+                <div id="Reusable-checks" class="col-12 p-0">
+                    <!-- Aqui van todos los checks--> 
+                </div>
             </div>
-
 
         </div>
 

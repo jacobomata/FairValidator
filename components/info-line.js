@@ -17,7 +17,7 @@ export default class InfoLineComponent extends HTMLElement {
         </div>
         <div class="col-10">
             <div class="caja-texto pl-2">
-                <span class="texto4">` 
+                <span class="texto4" id="`+ this.title +`">` 
                 + this.inputData +
                 `</span>
             </div>

@@ -43,14 +43,18 @@ function run() {
 }
 
 function loadResults(){
-  loadInfo();
+  loadInfo(result);
 
   loadCategory("Findable", result);
+  loadCategory("Accessible", result);
+  loadCategory("Interoperable", result);
+  loadCategory("Reusable", result);
+
 }
 
 function showResults() {
   var resultBlock = document.querySelector("#test-results");
-  resultBlock.style.display = "flex";
+  resultBlock.style.display = "block";
 }
 
 function getResults() {
@@ -143,17 +147,30 @@ function getResults() {
     }
 }
 
-function loadInfo() {
-  var title = document.getElementById("title");
+function loadInfo(result) {
+  var title = document.querySelector("#title");
+  title.textContent = result.ontology_title
+
+  var URI = document.querySelector("#URI-title");
+  URI.textContent = result.ontology_URI
 }
 
 function loadCategory(category, result) {
+
   var checks_div = document.getElementById(category + "-checks");
-  checks_div.innerHTML = "";
+  checks_div.innerHTML = getLineHTML();
 
   checks = getCategoryChecks(category, result);
 
   loadPrinciples(checks, checks_div);
+}
+
+function getLineHTML(){
+  return `
+  <div class="row w-100 m-0" style="display: block; height: 0px;">
+    <hr color="#000000">
+  </div>
+  `
 }
 
 function getCategoryChecks(category, result) {
@@ -174,13 +191,13 @@ function loadPrinciples(principles, checks_div) {
 function loadChecks(checks, checks_div) {
   for (let i = 0; i < checks.length; i++) {
     var check = document.createElement("div");
+    check.className = "p-3";
     check.innerHTML = getCheckHTML(checks[i]);
     checks_div.appendChild(check);
   }
 }
 
 function getCheckHTML(check_info) {
-  console.log(check_info);
   return (
     `
     <div class="col-12 p-0 caja-blanca mt-2">
@@ -194,9 +211,12 @@ function getCheckHTML(check_info) {
         + getRadialScoreHTML(check_info.Status_score) +
         `</div>
         <div class="col-2">
+          <div class="col-2 d-flex align-items-center justify-content-end">
+            <img src="assets/up-arrow.svg" onclick="arrowClicked(event, '`+check_info.id+`)">
+          </div>
         </div>
       </div>
-      <div class="row m-0">
+      <div class="row m-0" id="`+check_info.id+`>
         <div class="row m-0">
           <p class="texto-explanation pt-3 pl-3">`
           + check_info.explanation +
@@ -234,7 +254,6 @@ function getRadialScoreHTML(score){
 }
 
 function getAffectedURIsHTML(URIs){
-  console.log(URIs);
 
   var html = ``;
 
@@ -248,8 +267,8 @@ function getAffectedURIsHTML(URIs){
 function getPrincipleHTML(text) {
   return (
     `
-    <div class="row my-3">
-      <span class="texto-principle">` +
+    <div class="row my-3 pl-3">
+      <span class="texto-principle pl-3">` +
     text +
     `</span>
     </div>
@@ -266,4 +285,45 @@ function groupBy(objectArray, property) {
     acc[key].push(obj);
     return acc;
   }, {});
+}
+
+function arrowClicked(event, id){
+
+  status = getArrowStatus(event)
+
+  replaceArrow(event, status)
+
+  if(status=="up"){
+    hideContent(id);
+  }else{
+    showContent(id);
+  }
+
+}
+
+function getArrowStatus(event){
+  let src = event.currentTarget.src;
+  if(src.includes("up-arrow.svg")){
+    return "up";
+  }else{
+    return "down";
+  }
+}
+
+function replaceArrow(event, status){
+  if(status == "up"){
+    event.currentTarget.src = event.currentTarget.src.replace("up-arrow.svg", "down-arrow.svg")
+  }else{
+    event.currentTarget.src = event.currentTarget.src.replace("down-arrow.svg", "up-arrow.svg")
+  }
+}
+
+function showContent(id) {
+  var resultBlock = document.querySelector("#"+id);
+  resultBlock.style.display = "block";
+}
+
+function hideContent(id) {
+  var resultBlock = document.querySelector("#"+id);
+  resultBlock.style.display = "none";
 }
