@@ -167,7 +167,7 @@ function loadCategory(category, result) {
 
 function getLineHTML(){
   return `
-  <div class="row w-100 m-0" style="display: block; height: 0px;">
+  <div class="row w-100 mx-0" style="display: block; height: 0px; margin-top: -10px;">
     <hr color="#000000">
   </div>
   `
@@ -201,31 +201,33 @@ function getCheckHTML(check_info) {
   return (
     `
     <div class="col-12 p-0 caja-blanca mt-2">
-      <div class="row m-0">
-        <div class="col-8 d-flex align-items-center">
-          <span class="texto-check">`
-          + check_info.id +
-          `</span>
+      <div class="row mt-2 mx-0">
+        <div class="col-10">
+          <span class="texto-check">
+            `+ check_info.id +`
+          </span>
         </div>
-        <div class="col-2">`
-        + getRadialScoreHTML(check_info.Status_score) +
-        `</div>
-        <div class="col-2">
-          <div class="col-2 d-flex align-items-center justify-content-end">
-            <img src="assets/up-arrow.svg" onclick="arrowClicked(event, '`+check_info.id+`)">
-          </div>
+        <div class="col-2 d-flex align-items-center justify-content-end">
+          <img src="assets/up-arrow.svg" onclick="arrowClicked(event, '`+check_info.id+`')">
         </div>
       </div>
-      <div class="row m-0" id="`+check_info.id+`>
-        <div class="row m-0">
+      `+ getLineHTML() +`
+      <div class="row m-0" id="`+check_info.id+`">
+        <div class="row mx-0 mt-2 w-100">
+          <p class="texto-affected pl-3"> Description: </p>
+        </div>
+        <div class="row m-0 w-100">
+          <p class="texto-explanation pt-3 pl-3">`
+          + check_info.description +
+          `</p>
+        </div>
+        <div class="row m-0 w-100">
+          <p class="texto-affected pl-3"> Explanation: </p>
+        </div>
+        <div class="row m-0 w-100">
           <p class="texto-explanation pt-3 pl-3">`
           + check_info.explanation +
           `</p>
-        </div>
-        <div class="col-12">
-          <div class="row">
-            <p class="texto-affected pl-3"> Affected URIs: </p>
-          </div>
         </div>
       </div>
     </div>
@@ -253,16 +255,6 @@ function getRadialScoreHTML(score){
   `
 }
 
-function getAffectedURIsHTML(URIs){
-
-  var html = ``;
-
-  for (let i = 0; i < URIs.length; i++) {
-    html += `<p class="texto-URI"> - `+ URIs[i] + `</p>`;
-  }
-  
-  return html;
-}
 
 function getPrincipleHTML(text) {
   return (
