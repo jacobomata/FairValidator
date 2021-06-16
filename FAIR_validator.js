@@ -45,11 +45,130 @@ function run() {
 function loadResults(){
   loadInfo(result);
 
+  loadGrafics(result);
+
   loadCategory("Findable", result);
   loadCategory("Accessible", result);
   loadCategory("Interoperable", result);
   loadCategory("Reusable", result);
 
+}
+
+function getAverageChecks(checks){
+  total = 0
+  for(let i = 0; i < checks.length; i++){
+    total += checks[i].total_passed_tests/checks[i].total_tests_run
+  }
+  return total/checks.length
+}
+
+
+function loadGrafics(result){
+  var graphics = document.querySelector("#graphics");
+
+  graphics.innerHTML = `
+    <div class="col-6 d-flex align-items-center justify-content-center">`
+    + getRadialScoreHTML(result.overall_score) +
+    `
+    </div>
+    <div class="col-6 d-flex align-items-center justify-content-center pt-4">`
+    + getSpiderGraphHTML(result) + `
+    </div>
+  `
+}
+
+function getSpiderGraphHTML(result){
+  checks = groupBy(result.checks, "category_id")
+
+  category_results = {
+    "Findable": getAverageChecks(checks['Findable']),
+    "Accessible": getAverageChecks(checks['Accessible']),
+    "Interoperable": getAverageChecks(checks['Interoperable']),
+    "Reusable": getAverageChecks(checks['Reusable']),
+  }
+
+  
+  points = {
+    "center": { 
+      "x": 57,
+      "y": 50
+    },
+    "reusable": {
+      "x": 22,
+      "y": 50
+    },
+    "findable": {
+      "x": 57,
+      "y": 15
+    },
+    "accesible": {
+      "x": 91,
+      "y": 50
+    },
+    "interoperable": {
+      "x": 57,
+      "y": 85
+    }
+  }
+
+  console.log(category_results)
+  console.log(getSpiderDraw(points, category_results))
+
+  return `
+  <svg height="200" width="130" viewBox="-50 0 200 100" transform="scale(2.5,2.5)">
+    <rect x="50" y="-30" transform="rotate(45)" width="50" height="50"
+    fill="#fff" stroke-width="1" stroke="black" />
+    <line x1="22" y1="50" x2="91" y2="50" stroke-width="1" stroke="black"></line>
+    <line x1="57" y1="15" x2="57" y2="85" stroke-width="1" stroke="black"></line>
+    <path  fill="#428BCA4A" stroke-linecap="round" stroke-width="1" stroke="#27AE60" d="`+getSpiderDraw(points,category_results)+`"/>
+    <text x="10" y="50" text-anchor="end" dy="7" font-size="10">Rehusable</text>
+    <text x="57" y="0" text-anchor="middle" dy="7" font-size="10">Findable</text>
+    <text x="95" y="50" text-anchor="start" dy="7" font-size="10">Accessible</text>
+    <text x="57" y="90" text-anchor="middle"  dy="7" font-size="10">Interoperable</text>
+  </svg>
+  `
+}
+
+function getSpiderPoint(center, maximum, score){
+
+  distance_x = maximum.x - center.x
+  distance_y = maximum.y - center.y
+
+  point = null
+
+  console.log(distance_x)
+  if(distance_x == 0){
+    console.log("Punto en eje y")
+    point = { "x": center.x, "y": center.y + (distance_y*score) }
+  }else{
+    console.log("Punto en eje x")
+    point = { "x": center.x + (distance_x*score), "y": center.y }
+  }
+
+  return point.x + ` ` + point.y 
+
+}
+
+function getSpiderDraw(points, category_results){
+  return `M `+getSpiderPoint(points.center, points.reusable, category_results.Reusable)+` L `+getSpiderPoint(points.center, points.findable, category_results.Findable)+` L `+getSpiderPoint(points.center, points.accesible, category_results.Accessible)+` L `+getSpiderPoint(points.center, points.interoperable, category_results.Interoperable)+` L `+getSpiderPoint(points.center, points.reusable, category_results.Reusable)
+}
+
+function getRadialScoreHTML(score){
+  total = 251.2
+  graphic_value = total * score
+  stroke = total - graphic_value
+
+  return `
+  <svg height="100" width="100" transform="scale(1.6, 1.6)">
+    <circle cx="50" cy="50" r="45" fill="#FBFBFB"/>
+    <path fill="none" stroke-linecap="round" stroke-width="5" stroke="#E65A28"
+          stroke-dasharray="`+ graphic_value +`,`+ stroke +`"
+          d="M50 10
+            a 40 40 0 0 1 0 80
+            a 40 40 0 0 1 0 -80"/>
+    <text x="50" y="50" text-anchor="middle" dy="7" font-size="20">`+Math.round(score*100)+`%</text>
+  </svg>
+  `
 }
 
 function showResults() {
@@ -233,26 +352,6 @@ function getCheckHTML(check_info) {
     </div>
   `
   );
-}
-
-function getRadialScoreHTML(score){
-  return `
-    <svg id="prueba" class="svg" attr.width="50" attr.height="50"
-    viewPort="0 0 100 100">
-    <defs>
-        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-
-            <stop offset="25%" style="stop-color:#616887;stop-opacity:1" />
-            <stop offset="50%" style="stop-color:#616887;stop-opacity:1" />
-            <stop offset="75%" style="stop-color:#616887;stop-opacity:1" />
-        </linearGradient>
-    </defs>
-
-    <circle r="50" cx="75" cy="75" fill="transparent" stroke-dasharray="465.48" stroke-dashoffset="0"></circle>
-    <circle class="bar" r="50" cx="75" cy="75" fill="transparent"
-        stroke-dasharray="377.48" stroke-dashoffset="0"></circle>
-    </svg>
-  `
 }
 
 
