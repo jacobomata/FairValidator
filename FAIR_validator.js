@@ -201,7 +201,7 @@ function getResults() {
 
   var input = document.querySelector("#"+typeInputSelected+"_input").value
   
-  if(input!="http://vocab.ciudadesabiertas.es/def/economia/deuda-publica-comercial"){
+  if(input=="error"){
     return "Error"
   }
 
@@ -221,7 +221,8 @@ function getResults() {
         "explanation": "Ontology available in: HTML, RDF",
         "description": "Checks if the ontology URI is published following the right content negotiation for RDF and HTML",
         "total_passed_tests": 2,
-        "total_tests_run": 5
+        "total_tests_run": 5,
+        "affected_elements": ["URI1", "URI2"],
       },
       {
         "id": "PURL1",
@@ -348,6 +349,27 @@ function loadChecks(checks, checks_div) {
 }
 
 function getCheckHTML(check_info) {
+
+  affected_URIs_HTML = ``
+
+  if("affected_elements" in check_info){
+    affected_URIs_HTML = `
+    <div class="row m-0">
+      <p class="texto-explanation pt-3 pl-3">`
+      + check_info.explanation +
+      `</p>
+    </div>
+    <div class="col-12">
+      <div class="row">
+        <p class="texto-affected pl-3"> Affected URIs: </p>
+      </div>
+      `
+      + getAffectedURIsHTML(check_info.affected_elements) +
+      `
+    </div>
+    `
+  }
+
   return (
     `
     <div class="col-12 p-0 caja-blanca mt-2">
@@ -384,12 +406,23 @@ function getCheckHTML(check_info) {
           + check_info.explanation +
           `</p>
         </div>
+        `+ affected_URIs_HTML +`
       </div>
     </div>
   `
   );
 }
 
+function getAffectedURIsHTML(URIs){
+
+  var html = ``;
+
+  for (let i = 0; i < URIs.length; i++) {
+    html += `<p class="texto-URI"> - `+ URIs[i] + `</p>`;
+  }
+  
+  return html;
+}
 
 function getPrincipleHTML(text) {
   return (
