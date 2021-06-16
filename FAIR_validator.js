@@ -37,9 +37,37 @@ function showSelector(evt,elem){
 function run() {
   result = getResults();
 
-  loadResults();
+  if(result != "Error"){
+    loadResults();
 
-  showResults();
+    showResults();
+  }else{
+    showError()
+  }
+}
+
+function showResults() {
+  // Esconder Error
+  var resultBlock = document.querySelector("#error");
+  resultBlock.style.display = "none";
+
+
+  // Muestra resultados
+  var resultBlock = document.querySelector("#test-results");
+  resultBlock.style.display = "block";
+
+
+}
+
+function showError() {
+  // Esconde resultados
+  var resultBlock = document.querySelector("#test-results");
+  resultBlock.style.display = "none";
+
+  // Muestra error
+  var resultBlock = document.querySelector("#error");
+  resultBlock.style.display = "block";
+
 }
 
 function loadResults(){
@@ -68,7 +96,7 @@ function loadGrafics(result){
 
   graphics.innerHTML = `
     <div class="col-6 d-flex align-items-center justify-content-center">`
-    + getRadialScoreHTML(result.overall_score) +
+    + getRadialScoreHTML(result.overall_score, 1.6) +
     `
     </div>
     <div class="col-6 d-flex align-items-center justify-content-center pt-4">`
@@ -111,9 +139,6 @@ function getSpiderGraphHTML(result){
     }
   }
 
-  console.log(category_results)
-  console.log(getSpiderDraw(points, category_results))
-
   return `
   <svg height="200" width="130" viewBox="-50 0 200 100" transform="scale(2.5,2.5)">
     <rect x="50" y="-30" transform="rotate(45)" width="50" height="50"
@@ -153,13 +178,13 @@ function getSpiderDraw(points, category_results){
   return `M `+getSpiderPoint(points.center, points.reusable, category_results.Reusable)+` L `+getSpiderPoint(points.center, points.findable, category_results.Findable)+` L `+getSpiderPoint(points.center, points.accesible, category_results.Accessible)+` L `+getSpiderPoint(points.center, points.interoperable, category_results.Interoperable)+` L `+getSpiderPoint(points.center, points.reusable, category_results.Reusable)
 }
 
-function getRadialScoreHTML(score){
+function getRadialScoreHTML(score, size){
   total = 251.2
   graphic_value = total * score
   stroke = total - graphic_value
 
   return `
-  <svg height="100" width="100" transform="scale(1.6, 1.6)">
+  <svg height="100" width="100" transform="scale(`+size+`,`+size+`)">
     <circle cx="50" cy="50" r="45" fill="#FBFBFB"/>
     <path fill="none" stroke-linecap="round" stroke-width="5" stroke="#E65A28"
           stroke-dasharray="`+ graphic_value +`,`+ stroke +`"
@@ -171,12 +196,18 @@ function getRadialScoreHTML(score){
   `
 }
 
-function showResults() {
-  var resultBlock = document.querySelector("#test-results");
-  resultBlock.style.display = "block";
-}
 
 function getResults() {
+
+  var input = document.querySelector("#"+typeInputSelected+"_input").value
+  
+  if(input!="http://vocab.ciudadesabiertas.es/def/economia/deuda-publica-comercial"){
+    return "Error"
+  }
+
+  // TO-DO
+  // Aqui iría la llamada al backend
+
   return {
     "ontology_URI": "https://w3id.org/okn/o/sd",
     "ontology_title": "The Software Description Ontology",
@@ -190,7 +221,7 @@ function getResults() {
         "explanation": "Ontology available in: HTML, RDF",
         "description": "Checks if the ontology URI is published following the right content negotiation for RDF and HTML",
         "total_passed_tests": 2,
-        "total_tests_run": 2
+        "total_tests_run": 5
       },
       {
         "id": "PURL1",
@@ -199,8 +230,8 @@ function getResults() {
         "status": "ok",
         "explanation": "Ontology URI is persistent (w3id, purl, DOI, or a W3C URL)",
         "description": " Check if the ontology uses a persistent URL",
-        "total_passed_tests": 1,
-        "total_tests_run": 1
+        "total_passed_tests": 3,
+        "total_tests_run": 4
       },
       {
         "id": "DOC1",
@@ -209,8 +240,8 @@ function getResults() {
         "status": "ok",
         "explanation": "Ontology available in HTML",
         "description": "Check if the ontology has an HTML documentation",
-        "total_passed_tests": 1,
-        "total_tests_run": 1
+        "total_passed_tests": 2,
+        "total_tests_run": 6
       },
       {
         "id": "RDF1",
@@ -219,8 +250,8 @@ function getResults() {
         "status": "ok",
         "explanation": "Ontology available in RDF",
         "description": "Check if the ontology has an RDF serialization",
-        "total_passed_tests": 1,
-        "total_tests_run": 1
+        "total_passed_tests": 3,
+        "total_tests_run": 3
       },
       {
         "id": "OM1",
@@ -229,7 +260,7 @@ function getResults() {
         "status": "unchecked",
         "explanation": "All metadata found!",
         "description": "Check to see is the following  minimum metadata [title, description, license, version iri, creator, creationDate, namespace URI] are present",
-        "total_passed_tests": 6,
+        "total_passed_tests": 5,
         "total_tests_run": 6
       },
       {
@@ -321,17 +352,22 @@ function getCheckHTML(check_info) {
     `
     <div class="col-12 p-0 caja-blanca mt-2">
       <div class="row mt-2 mx-0">
-        <div class="col-10">
+        <div class="col-8">
           <span class="texto-check">
             `+ check_info.id +`
           </span>
+        </div>
+        <div class="col-2">
+          <div style="position: absolute; top:-30px;">
+        `+getRadialScoreHTML(check_info.total_passed_tests/check_info.total_tests_run, 0.5)+`
+          </div>
         </div>
         <div class="col-2 d-flex align-items-center justify-content-end">
           <img src="assets/up-arrow.svg" onclick="arrowClicked(event, '`+check_info.id+`')">
         </div>
       </div>
-      `+ getLineHTML() +`
       <div class="row m-0" id="`+check_info.id+`">
+      `+ getLineHTML() +`
         <div class="row mx-0 mt-2 w-100">
           <p class="texto-affected pl-3"> Description: </p>
         </div>
